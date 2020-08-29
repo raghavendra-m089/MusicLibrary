@@ -36,6 +36,10 @@ public class CartRepository {
         new insertAsyncTask(mCartDAO).execute(word);
     }
 
+    public void delete (Integer trackId) {
+        new deleteAsyncTask(mCartDAO).execute(trackId);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Cart, Void, Void> {
 
         private CartDAO mAsyncTaskDao;
@@ -46,8 +50,23 @@ public class CartRepository {
 
         @Override
         protected Void doInBackground(final Cart... params) {
-            System.out.println(("came here"));
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private CartDAO mAsyncTaskDao;
+
+        deleteAsyncTask(CartDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Integer... params) {
+            mAsyncTaskDao.delete(params[0]);
             return null;
         }
 

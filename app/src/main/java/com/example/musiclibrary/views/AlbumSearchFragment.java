@@ -62,7 +62,7 @@ public class AlbumSearchFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Integer> items) {
                 // Update the cached copy of the words in the adapter.
-                System.out.println(items);
+                adapter.setChangeCartValues(items);
             }
         });
     }
@@ -151,5 +151,9 @@ public class AlbumSearchFragment extends Fragment {
 
     public void clickedItem(Album volume) {
         cartViewModel.insert(new Cart(volume.getArtistName(), volume.getCollectionPrice(), volume.getCollectionId()));
+    }
+
+    public void deleteItem(Integer collectionId) {
+        cartViewModel.delete(collectionId);
     }
 }

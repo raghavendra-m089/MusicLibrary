@@ -29,4 +29,6 @@ public class CartViewModel extends AndroidViewModel {
     public LiveData<List<Integer>> getAllIDCartItems() { return mAllIdItems; }
 
     public void insert(Cart item) { mRepository.insert(item); }
+
+    public void delete(Integer trackId) { mRepository.delete(trackId); }
 }

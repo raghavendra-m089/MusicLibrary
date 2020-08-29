@@ -31,6 +31,7 @@ import java.util.Locale;
 public class AlbumSearchResultsAdapter extends RecyclerView.Adapter<AlbumSearchResultsAdapter.AlbumSearchResultHolder> {
     private List<Album> results = new ArrayList<>();
     private AlbumSearchFragment context;
+    private List<Integer> cartIds = new ArrayList<>();
 
     public AlbumSearchResultsAdapter(AlbumSearchFragment context) {
         this.context = context;
@@ -42,6 +43,7 @@ public class AlbumSearchResultsAdapter extends RecyclerView.Adapter<AlbumSearchR
     public AlbumSearchResultHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.album_item, parent, false);
+
 
         return new AlbumSearchResultHolder(itemView);
     }
@@ -63,7 +65,11 @@ public class AlbumSearchResultsAdapter extends RecyclerView.Adapter<AlbumSearchR
             e.printStackTrace();
         }
 
-
+        if(cartIds.contains(volume.getCollectionId())){
+            holder.cartAdd.setBackground(context.getResources().getDrawable(R.drawable.ic_baseline_remove_shopping_cart_24));
+        } else {
+            holder.cartAdd.setBackground(context.getResources().getDrawable(R.drawable.ic_baseline_add_shopping_cart_24));
+        }
 
         if (volume.getArtworkUrl100() != null) {
             String imageUrl = volume.getArtworkUrl100();
@@ -82,7 +88,12 @@ public class AlbumSearchResultsAdapter extends RecyclerView.Adapter<AlbumSearchR
         }
 
         holder.cartAdd.setOnClickListener(v -> {
-            context.clickedItem(volume);
+            if(cartIds.contains(volume.getCollectionId())){
+                context.deleteItem(volume.getCollectionId());
+            } else {
+                context.clickedItem(volume);
+            }
+
         });
 
 
@@ -95,6 +106,11 @@ public class AlbumSearchResultsAdapter extends RecyclerView.Adapter<AlbumSearchR
 
     public void setResults(List<Album> results) {
         this.results = results;
+        notifyDataSetChanged();
+    }
+
+    public void setChangeCartValues(List<Integer> cartId) {
+        this.cartIds = cartId;
         notifyDataSetChanged();
     }
 

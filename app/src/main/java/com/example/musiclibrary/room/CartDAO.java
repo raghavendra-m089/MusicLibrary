@@ -19,7 +19,7 @@ public interface CartDAO {
     @Insert
     void insert(Cart cart);
 
-    @Delete
-    void delete(Cart cart);
+    @Query("DELETE FROM Cart where trackId = :trackId")
+    void delete(Integer trackId);
 
 }
